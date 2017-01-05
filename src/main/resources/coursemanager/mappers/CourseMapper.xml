@@ -23,6 +23,10 @@
       SELECT * FROM course WHERE is_active = 1
       ORDER BY title ${_parameter}
   </select>
+  
+  <select id="getNumberOfCourses" resultType="int">
+      SELECT COUNT(*) FROM course WHERE is_active = 1
+  </select>
    
   <insert id="insertCourse" parameterType="Course" useGeneratedKeys="true" keyProperty="id">
    INSERT INTO course(title, description, number_of_hours, level, is_active)

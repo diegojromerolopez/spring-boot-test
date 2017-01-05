@@ -13,6 +13,8 @@ import org.apache.ibatis.session.SqlSession;
  */
 public class CourseService {
     
+    private final int PAGE_SIZE = 10;
+    
     public void insertCourse(Course course)
     {
         SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
@@ -42,14 +44,26 @@ public class CourseService {
  
     public List<Course> getAllCourses(String titleSort, Integer pageNumber)
     {
-        int pageSize = 10;
         SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
         try
         {
-            int offset = (pageNumber-1) * pageSize;
-            RowBounds rowBounds = new RowBounds(offset, pageSize);
+            int offset = (pageNumber-1) * PAGE_SIZE;
+            RowBounds rowBounds = new RowBounds(offset, PAGE_SIZE);
             CourseMapper courseMapper = sqlSession.getMapper(CourseMapper.class);
             return courseMapper.getAllCourses(titleSort, rowBounds);
+        } finally
+        {
+            sqlSession.close();
+        }
+    }
+    
+    public Integer getNumberOfCourses()
+    {
+        SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+        try
+        {
+            CourseMapper courseMapper = sqlSession.getMapper(CourseMapper.class);
+            return courseMapper.getNumberOfCourses();
         } finally
         {
             sqlSession.close();

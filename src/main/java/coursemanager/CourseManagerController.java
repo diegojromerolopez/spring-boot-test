@@ -36,6 +36,14 @@ public class CourseManagerController {
         List<Course> courses = courseService.getAllCourses(titleSort, page);
         return courses;
     }
+    
+    // Show list of all courses
+    @RequestMapping(value="/count", method=RequestMethod.GET)
+    public Integer count(){
+        CourseService courseService = new CourseService();
+        Integer number_of_courses = courseService.getNumberOfCourses();
+        return number_of_courses;
+    }
 
     // Show one course
     @RequestMapping(value="/{id}", method=RequestMethod.GET)

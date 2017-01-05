@@ -24,7 +24,9 @@ public interface CourseMapper {
         
         public void insertCourse(Course course);
     
-	List<Course> getAllCourses(String titleSort, RowBounds rowbounds);
+	public List<Course> getAllCourses(String titleSort, RowBounds rowbounds);
+        
+        public Integer getNumberOfCourses();
         
         public void deleteCourse(Integer id);
 
