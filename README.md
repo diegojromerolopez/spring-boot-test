@@ -57,13 +57,15 @@ Adds a new course. Needs a POST with a JSON body. The format of the JSON is the 
     "teacher": <teacher_id>
 }
  ````
-In the directory rest_example_calls are two scripts, add_course is one of them and lets you add a new course to teacher with id 2 (change it if teacher with id = 2 does not exist in your database).
+In the directory rest_example_calls are two scripts, [rest_example_calls/add_course.sh](https://github.com/diegojromerolopez/spring-boot-test/blob/master/rest_example_calls/add_course.sh) is one of them and lets you add a new course to teacher with id 2 (change it if teacher with id = 2 does not exist in your database).
 
 ## /courses/{id}
 Return the courses with id={id}
 
 ## /courses/{id}/delete
 Deletes the course with id={id}. This action uses the POST method.
+
+Take a look to the [rest_example_calls/delete_course.sh](https://github.com/diegojromerolopez/spring-boot-test/blob/master/rest_example_calls/delete_course.sh) script. It takes the id of the course you want to delete as a parameter and calls to deletion URL.
 
 ## /teachers
 Return the list of teachers
