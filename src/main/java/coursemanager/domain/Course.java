@@ -21,8 +21,8 @@ public class Course {
 	private Boolean isActive;
         
         private Teacher teacher;
-
-        public Course(String title, String description, Integer numberOfHours, String level, Boolean isActive){
+        
+        public void set(String title, String description, Integer numberOfHours, String level, Boolean isActive){
             this.title = title;
             this.description = description;
             this.numberOfHours = numberOfHours;

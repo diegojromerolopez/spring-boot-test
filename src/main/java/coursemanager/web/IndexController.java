@@ -1,4 +1,4 @@
-package coursemanager;
+package coursemanager.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;

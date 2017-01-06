@@ -1,4 +1,4 @@
-package coursemanager;
+package coursemanager.web;
 
 import coursemanager.domain.Course;
 import coursemanager.domain.Teacher;
@@ -101,12 +101,14 @@ public class CourseManagerController {
     private static Course createCourseFromMap(Map<String, Object> map){
         String isActiveString = (String)map.get("isActive");
         Boolean isActive = isActiveString.equals("true") || isActiveString.equals("1");
-        return new Course(
+        Course course = new Course();
+        course.set(
                 (String)map.get("title"),
                 (String)map.get("description"),
                 (Integer)map.get("numberOfHours"),
                 (String)map.get("level"),
                 isActive);
+        return course;
     }
     
 }

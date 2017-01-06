@@ -1,4 +1,4 @@
-package coursemanager;
+package coursemanager.web;
 
 import coursemanager.domain.Course;
 import coursemanager.domain.Teacher;
