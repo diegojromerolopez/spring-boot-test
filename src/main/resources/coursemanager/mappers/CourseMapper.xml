@@ -48,7 +48,7 @@
    
   <insert id="saveCourse" parameterType="Course" useGeneratedKeys="true" keyProperty="id">
    INSERT INTO course(title, description, number_of_hours, level, is_active, teacher_id)
-    VALUES(#{title}, #{description}, #{numberOfHours}, #{level}, #{isActive}, #{teacher.teacher_id})
+    VALUES(#{title}, #{description}, #{numberOfHours}, #{level}, #{isActive}, #{teacher.id})
   </insert>
    
   <delete id="deleteCourse" parameterType="int">

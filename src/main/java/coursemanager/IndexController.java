@@ -11,7 +11,6 @@ public class IndexController {
     
     @RequestMapping(value="/", method=RequestMethod.GET)
     public String index() {
-        System.out.println("Home Page");
         return "index";
     }
     

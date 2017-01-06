@@ -1,2 +1,2 @@
 #!/bin/bash
-curl -H "Content-Type: application/json" -s -XPOST -d '{"title":"Test Course", "description":"Test Course Description", "number_of_hours":33, "level": "basic", "is_active": "false"}' http://localhost:8080/courses/add
+curl -H "Content-Type: application/json" -s -XPOST -d '{"title":"Test Course", "description":"Test Course Description", "numberOfHours":33, "level": "basic", "isActive": "false", "teacher":2}' http://localhost:8080/courses/add

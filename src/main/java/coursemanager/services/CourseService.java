@@ -19,10 +19,7 @@ public class CourseService {
     {
         SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
         try
-        {
-            System.out.println("saveCourse");
-            System.out.println(course.getTeacher());
-            
+        {   
             CourseMapper courseMapper = sqlSession.getMapper(CourseMapper.class);
             courseMapper.saveCourse(course);
 
@@ -40,9 +37,7 @@ public class CourseService {
         try
         {
             CourseMapper courseMapper = sqlSession.getMapper(CourseMapper.class);
-            System.out.println(id);
             Course course = courseMapper.getCourseById(id);
-            System.out.println(course);
             return course;
         } finally
         {

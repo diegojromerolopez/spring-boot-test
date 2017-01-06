@@ -35,7 +35,6 @@ public class TeacherManagerController {
     // Show one teacher
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public Teacher view(@PathVariable("id") Integer id) {
-        System.out.println("view");
         TeacherService teacherService = new TeacherService();
         Teacher teacher = teacherService.getTeacherById(id);
         return teacher;
@@ -44,7 +43,6 @@ public class TeacherManagerController {
     // Show one teacher and his/her courses
     @RequestMapping(value="/{id}/courses", method=RequestMethod.GET)
     public Teacher viewCourses(@PathVariable("id") Integer id) {
-        System.out.println("viewCourses");
         TeacherService teacherService = new TeacherService();
         Teacher teacher = teacherService.getTeacherCourses(id);
         return teacher;

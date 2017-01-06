@@ -1,12 +1,15 @@
 package coursemanager;
 
 import coursemanager.domain.Course;
+import coursemanager.domain.Teacher;
 import coursemanager.mappers.CourseMapper;
 import coursemanager.services.CourseService;
+import coursemanager.services.TeacherService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -50,11 +53,8 @@ public class CourseManagerController {
     // Show one course
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public Course view(@PathVariable("id") Integer id) {
-        System.out.println("view");
-        System.out.println(id);
         CourseService courseService = new CourseService();
         Course course = courseService.getCourseById(id);
-        System.out.println(course);
         return course;
     }
 
@@ -77,18 +77,36 @@ public class CourseManagerController {
             //consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, 
             produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
     )
-    public Course add(@RequestBody final Course course,  HttpServletResponse response) {
+    public Course add(
+            //@RequestBody final Course course,
+            @RequestBody Map<String, Object> payload,
+            HttpServletRequest request,  HttpServletResponse response
+    ) {
+        Course course = createCourseFromMap(payload);
+        
+        TeacherService teacherService = new TeacherService();
+        Teacher courseTeacher = teacherService.getTeacherById((Integer)payload.get("teacher"));
+        
+        course.setTeacher(courseTeacher);
+        
         CourseService courseService = new CourseService();
         return courseService.saveCourse(course);
-        /*
-        try{
-            return courseService.saveCourse(course);
-        } catch(Exception e){
-            System.out.println("Exception");
-            e.printStackTrace();
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return null;
-        }*/
+    }
+    
+    /**
+     * Create a couse from a map.
+     * NOTE: this course will have a null Teacher.
+     * I'm sure there is a better way to do this, but I have not found it.
+     */
+    private static Course createCourseFromMap(Map<String, Object> map){
+        String isActiveString = (String)map.get("isActive");
+        Boolean isActive = isActiveString.equals("true") || isActiveString.equals("1");
+        return new Course(
+                (String)map.get("title"),
+                (String)map.get("description"),
+                (Integer)map.get("numberOfHours"),
+                (String)map.get("level"),
+                isActive);
     }
     
 }

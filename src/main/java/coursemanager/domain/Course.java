@@ -1,5 +1,7 @@
 package coursemanager.domain;
 
+import java.util.Map;
+
 /**
  *
  * @author diegoj
@@ -12,7 +14,7 @@ public class Course {
         
         private String description;
         
-        private String numberOfHours;
+        private Integer numberOfHours;
         
         private String level;
 
@@ -20,6 +22,14 @@ public class Course {
         
         private Teacher teacher;
 
+        public Course(String title, String description, Integer numberOfHours, String level, Boolean isActive){
+            this.title = title;
+            this.description = description;
+            this.numberOfHours = numberOfHours;
+            this.level = level;
+            this.isActive = isActive;
+        }
+        
 	public Long getId() {
 		return this.id;
 	}
@@ -36,7 +46,7 @@ public class Course {
 		return this.description;
 	}
         
-        public String getNumberOfHours() {
+        public Integer getNumberOfHours() {
 		return this.numberOfHours;
 	}
         
@@ -47,6 +57,10 @@ public class Course {
         public Boolean isActive() {
 		return this.isActive;
 	}
+        
+        public void setTeacher(Teacher teacher){
+            this.teacher = teacher;
+        }
         
         public Teacher getTeacher() {
 		return this.teacher;
