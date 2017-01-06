@@ -1,6 +1,6 @@
 # spring-boot-test
 
-Java Spring Boot experiments integrating it with other frameworks and tests
+Java [Spring Boot](https://projects.spring.io/spring-boot/) experiments integrating it with other frameworks and tests.
 
 Do not use in production! Only use it for learning purposes!
 
@@ -30,15 +30,19 @@ Import that in your DBMS.
 
 There is a [small script](https://github.com/diegojromerolopez/spring-boot-test/blob/master/run.sh) that checks if all maven dependencies are satisfied and runs the application.
 
+Once you run this script, you would see the web app in your local address **http://localhost:8080**.
+
 # Models
 
 ## Teacher
 
-A teacher is a person that gives a course.
+A teacher is a person that gives a course. He/She has a first name and last name.
 
 ## Course
 
-A course is given by only one teacher.
+Courses have a title, a description, a number of hours, a level (basic, intermediate or advanced) and can be actived or disabled.
+
+Thus, courses are given by one (and only one) teacher.
 
 # REST URLs
 
@@ -76,3 +80,5 @@ Return the teacher with id={id}
 # Other dependencies
 I've uploaded the Javascript dependencies using npm so you don't have to worry about that.
 
+# Comments about this project?
+This project tries to give a panoramic view of Java Spring Boot and accepts suggestions or even PR.
