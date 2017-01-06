@@ -6,7 +6,7 @@ Do not use in production! Only use it for learning purposes!
 
 # Installation
 
-Copy [src/main/resources/jdbc.example.properties] to **src/main/resources/jdbc.properties** and overwrite the username
+Copy [src/main/resources/jdbc.example.properties](https://github.com/diegojromerolopez/spring-boot-test/blob/master/src/main/resources/jdbc.example.properties) to **src/main/resources/jdbc.properties** and overwrite the username
 and password of your database:
 
 ````
