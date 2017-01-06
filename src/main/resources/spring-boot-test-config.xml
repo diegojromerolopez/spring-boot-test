@@ -6,6 +6,7 @@
  <properties resource="jdbc.properties"/>
  <typeAliases>
     <typeAlias type="coursemanager.domain.Course" alias="Course"></typeAlias>
+    <typeAlias type="coursemanager.domain.Teacher" alias="Teacher"></typeAlias>
  </typeAliases>
  <environments default="development">
   <environment id="development">
@@ -20,5 +21,6 @@
   </environments>
   <mappers>
     <mapper resource="coursemanager/mappers/CourseMapper.xml"/>
+    <mapper resource="coursemanager/mappers/TeacherMapper.xml"/>
   </mappers>
 </configuration>

@@ -50,8 +50,11 @@ public class CourseManagerController {
     // Show one course
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public Course view(@PathVariable("id") Integer id) {
+        System.out.println("view");
+        System.out.println(id);
         CourseService courseService = new CourseService();
         Course course = courseService.getCourseById(id);
+        System.out.println(course);
         return course;
     }
 
@@ -76,13 +79,16 @@ public class CourseManagerController {
     )
     public Course add(@RequestBody final Course course,  HttpServletResponse response) {
         CourseService courseService = new CourseService();
+        return courseService.saveCourse(course);
+        /*
         try{
             return courseService.saveCourse(course);
         } catch(Exception e){
             System.out.println("Exception");
+            e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return null;
-        }
+        }*/
     }
     
 }

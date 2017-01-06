@@ -8,15 +8,17 @@ public class Course {
 
 	private Long id;
 
-	public String title;
+	private String title;
         
-        public String description;
+        private String description;
         
-        public String number_of_hours;
+        private String numberOfHours;
         
-        public String level;
+        private String level;
 
-	public Boolean is_active;
+	private Boolean isActive;
+        
+        private Teacher teacher;
 
 	public Long getId() {
 		return this.id;
@@ -26,12 +28,32 @@ public class Course {
 		this.id = id;
 	}
 
-	public String getName() {
+	public String getTitle() {
 		return this.title;
+	}
+        
+        public String getDescription() {
+		return this.description;
+	}
+        
+        public String getNumberOfHours() {
+		return this.numberOfHours;
+	}
+        
+        public String getLevel() {
+		return this.level;
+	}
+        
+        public Boolean isActive() {
+		return this.isActive;
+	}
+        
+        public Teacher getTeacher() {
+		return this.teacher;
 	}
 
 	@Override
 	public String toString() {
-		return getId() + "," + getName();
+		return getId() + "," + getTitle();
 	}    
 }

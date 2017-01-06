@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="coursemanager.mappers.TeacherMapper">
+  
+    <resultMap type="Teacher" id="TeacherResult">
+    <id property="id" column="teacher_id"/>
+    <result property="firstName" column="first_name"/>
+    <result property="lastName" column="last_name"/>
+   </resultMap>
+    
+   <resultMap type="Teacher" id="TeacherResultWithCourses">
+    <id property="id" column="teacher_id"/>
+    <result property="firstName" column="first_name"/>
+    <result property="lastName" column="last_name"/>
+    <collection property="courses" ofType="Course" resultMap="coursemanager.mappers.CourseMapper.CourseResult" columnPrefix="course_"></collection>
+   </resultMap>
+   
+  <select id="getTeacherById" parameterType="int" resultMap="TeacherResult">
+      SELECT teacher.teacher_id, teacher.first_name, teacher.last_name
+      FROM teacher
+      WHERE teacher.teacher_id = #{id}
+  </select>
+  
+  <select id="getTeacherCourses" parameterType="int" resultMap="TeacherResultWithCourses">
+      SELECT
+        teacher.teacher_id, teacher.first_name, teacher.last_name, 
+        course.course_id AS course_course_id,
+        course.title AS course_title,
+        course.description AS course_description,
+        course.number_of_hours AS course_number_of_hours,
+        course.level AS course_level,
+        course.is_active AS course_is_active,
+        course.teacher_id AS course_teacher_id
+      FROM teacher
+      LEFT JOIN course ON course.teacher_id = teacher.teacher_id AND course.is_active=1
+      WHERE teacher.teacher_id = #{id}
+  </select>
+  
+  <select id="getAllTeachers" resultMap="TeacherResult">
+      SELECT
+        teacher.teacher_id, teacher.first_name, teacher.last_name
+      FROM teacher
+  </select>
+  
+</mapper>

@@ -3,24 +3,42 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
    
 <mapper namespace="coursemanager.mappers.CourseMapper">
- 
-  <select id="getCourseById" parameterType="int" resultType="coursemanager.domain.Course">
-     SELECT * 
-     FROM course 
-     WHERE id = #{id}
-  </select>
   
-   <resultMap type="Course" id="CourseResult">
-    <id property="id" column="id"/>
+    <resultMap type="Course" id="CourseResult">
+    <id property="id" column="course_id"/>
     <result property="title" column="title"/>
     <result property="description" column="description"/>
-    <result property="number_of_hours" column="number_of_hours"/>
+    <result property="numberOfHours" column="number_of_hours"/>
     <result property="level" column="level"/>   
-    <result property="is_active" column="is_active"/>   
+    <result property="isActive" column="is_active"/>
+   </resultMap>
+    
+   <resultMap type="Course" id="CourseResultWithTeacher">
+    <id property="id" column="course_id"/>
+    <result property="title" column="title"/>
+    <result property="description" column="description"/>
+    <result property="numberOfHours" column="number_of_hours"/>
+    <result property="level" column="level"/>   
+    <result property="isActive" column="is_active"/>
+    <association property="teacher" resultMap="coursemanager.mappers.TeacherMapper.TeacherResult" />   
    </resultMap>
    
-  <select id="getAllCourses" resultMap="CourseResult">
-      SELECT * FROM course WHERE is_active = 1
+   <select id="getCourseById" parameterType="int" resultMap="CourseResultWithTeacher">
+     SELECT
+       course.course_id, course.title, course.description, course.number_of_hours, course.level, course.is_active,
+       teacher.teacher_id, teacher.first_name, teacher.last_name
+     FROM course
+     INNER JOIN teacher ON course.teacher_id = teacher.teacher_id  
+     WHERE course.course_id = #{id}
+  </select>
+   
+  <select id="getAllCourses" resultMap="CourseResultWithTeacher">
+      SELECT
+        course.course_id, course.title, course.description, course.number_of_hours, course.level, course.is_active,
+        teacher.teacher_id, teacher.first_name, teacher.last_name
+      FROM course
+      INNER JOIN teacher ON course.teacher_id = teacher.teacher_id
+      WHERE is_active = 1
       ORDER BY title ${_parameter}
   </select>
   
@@ -29,12 +47,12 @@
   </select>
    
   <insert id="saveCourse" parameterType="Course" useGeneratedKeys="true" keyProperty="id">
-   INSERT INTO course(title, description, number_of_hours, level, is_active)
-    VALUES(#{title}, #{description}, #{number_of_hours}, #{level}, #{is_active})
+   INSERT INTO course(title, description, number_of_hours, level, is_active, teacher_id)
+    VALUES(#{title}, #{description}, #{numberOfHours}, #{level}, #{isActive}, #{teacher.teacher_id})
   </insert>
    
   <delete id="deleteCourse" parameterType="int">
-    DELETE FROM course WHERE id = #{id}
+    DELETE FROM course WHERE course_id = #{id}
   </delete>
    
 </mapper>
