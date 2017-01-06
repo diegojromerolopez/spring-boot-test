@@ -15,14 +15,15 @@ public class CourseService {
     
     private final int PAGE_SIZE = 10;
     
-    public void insertCourse(Course course)
+    public Course saveCourse(Course course)
     {
         SqlSession sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
         try
         {
             CourseMapper courseMapper = sqlSession.getMapper(CourseMapper.class);
-            courseMapper.insertCourse(course);
+            courseMapper.saveCourse(course);
             sqlSession.commit();
+            return course;
         } finally
         {
             sqlSession.close();

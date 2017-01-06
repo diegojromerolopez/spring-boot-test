@@ -22,7 +22,7 @@ public interface CourseMapper {
 
         public Course getCourseById(Integer id);
         
-        public void insertCourse(Course course);
+        public void saveCourse(Course course);
     
 	public List<Course> getAllCourses(String titleSort, RowBounds rowbounds);
         

@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -54,7 +56,7 @@ public class CourseManagerController {
     }
 
     // Delete course
-    @RequestMapping(value="/{id}/delete", method=RequestMethod.GET)
+    @RequestMapping(value="/{id}/delete", method=RequestMethod.POST)
     public Course delete(@PathVariable("id") Integer id, HttpServletResponse response) {
         CourseService courseService = new CourseService();
         Course deleted_course = courseService.getCourseById(id);
@@ -67,9 +69,20 @@ public class CourseManagerController {
     }
     
     // Add a new course
-    @RequestMapping(value="/add", method=RequestMethod.POST)
-    public String add() {
-        return "Adding a course";
+    @RequestMapping(
+            value="/add", method=RequestMethod.POST,
+            //consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, 
+            produces = {MediaType.APPLICATION_ATOM_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
+    )
+    public Course add(@RequestBody final Course course,  HttpServletResponse response) {
+        CourseService courseService = new CourseService();
+        try{
+            return courseService.saveCourse(course);
+        } catch(Exception e){
+            System.out.println("Exception");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return null;
+        }
     }
     
 }
