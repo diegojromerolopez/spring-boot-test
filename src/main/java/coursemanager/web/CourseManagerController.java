@@ -1,5 +1,6 @@
 package coursemanager.web;
 
+import static coursemanager.configuration.Configuration.CORS_DOMAIN;
 import coursemanager.domain.Course;
 import coursemanager.domain.Teacher;
 import coursemanager.mappers.CourseMapper;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CourseManagerController {
     
     // Show list of all courses
+    @CrossOrigin(origins=CORS_DOMAIN)
     @RequestMapping(value="", method=RequestMethod.GET)
     public List<Course> list(
             @RequestParam(value="order", required=false, defaultValue="ASC") String titleSort,
@@ -43,6 +46,7 @@ public class CourseManagerController {
     }
     
     // Show list of all courses
+    @CrossOrigin(origins=CORS_DOMAIN)
     @RequestMapping(value="/count", method=RequestMethod.GET)
     public Integer count(){
         CourseService courseService = new CourseService();
@@ -51,6 +55,7 @@ public class CourseManagerController {
     }
 
     // Show one course
+    @CrossOrigin(origins=CORS_DOMAIN)
     @RequestMapping(value="/{id}", method=RequestMethod.GET)
     public Course view(@PathVariable("id") Integer id) {
         CourseService courseService = new CourseService();
@@ -59,6 +64,7 @@ public class CourseManagerController {
     }
 
     // Delete course
+    @CrossOrigin(origins=CORS_DOMAIN)
     @RequestMapping(value="/{id}/delete", method=RequestMethod.POST)
     public Course delete(@PathVariable("id") Integer id, HttpServletResponse response) {
         CourseService courseService = new CourseService();
@@ -72,6 +78,7 @@ public class CourseManagerController {
     }
     
     // Add a new course
+    @CrossOrigin(origins=CORS_DOMAIN)
     @RequestMapping(
             value="/add", method=RequestMethod.POST,
             //consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, 

@@ -37,7 +37,7 @@ public class Teacher {
             return firstName+" "+lastName;
         }
         
-        public List<Course> getCourses(){
+        List<Course> getCourses(){
             return courses;
         }
         
