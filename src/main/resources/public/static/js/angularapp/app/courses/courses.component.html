@@ -25,6 +25,18 @@
         </tr>
     </table>
 
+    <div class="pagination" *ngIf="course_count">
+      <button (click)="getPrevCourses();">&lt; Prev</button>
+      <button *ngIf="current_page > 1" (click)="getFirstCourses();">1</button>
+      <span *ngIf="current_page > 2">...</span>
+      <span *ngIf="current_page > 2" (click)="getPrevCourses();">{{current_page-1}}</span>
+      <strong>{{current_page}}</strong>
+      <span *ngIf="current_page < course_count.numberOfPages -1" (click)="getNextCourses();">{{current_page+1}}</span>
+      <span *ngIf="current_page < course_count.numberOfPages">...</span>
+      <button *ngIf="current_page < course_count.numberOfPages" (click)="getLastCourses();">{{course_count.numberOfPages}}</button>
+      <button (click)="getNextCourses();">&gt; Next</button>
+    </div>
+
     <div *ngIf="!new_course">
       <button (click)="changeMode();">
         <span *ngIf="mode == 'add'">

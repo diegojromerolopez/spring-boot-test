@@ -47,8 +47,10 @@ export class CoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCourseCount();
-    this.getCourses();
+    let that = this;
+    this.getCourseCount(function(){
+      that.getCourses();
+    });
     this.getTeachers();
   }
 
@@ -61,12 +63,43 @@ export class CoursesComponent implements OnInit {
     this.getCourses();
   }
 
-  getCourseCount(): void {
-    this.courseService.getCourseCount().then(course_count => this.course_count=course_count );
+  getCourseCount(callback?: Function): void {
+    if(!callback){
+      callback = function(){};
+    }
+    this.courseService.getCourseCount().then(course_count => { this.course_count=course_count; console.log(this); callback(); } );
   }
 
   getCourses(): void {
-    this.courseService.getCourses(this.order).then(courses => this.courses = courses);
+    this.courseService.getCourses(this.order, this.current_page).then(courses => this.courses = courses);
+  }
+
+  getFirstCourses(): void {
+    if(this.current_page > 1){
+      this.current_page = 1;
+      this.getCourses();
+    }
+  }
+
+  getPrevCourses(): void {
+    if(this.current_page > 1){
+      this.current_page -= 1;
+      this.getCourses();
+    }
+  }
+
+  getNextCourses(): void {
+    if(this.current_page < this.course_count.numberOfPages-1){
+      this.current_page += 1;
+      this.getCourses();
+    }
+  }
+
+  getLastCourses(): void {
+    if(this.current_page < this.course_count.numberOfPages-1){
+      this.current_page = this.course_count.numberOfPages;
+      this.getCourses();
+    }
   }
 
   getTeachers(): void {

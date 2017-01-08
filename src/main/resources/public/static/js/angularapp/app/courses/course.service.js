@@ -24,12 +24,13 @@ var CourseService = (function () {
         this.ADD_COURSE_URL = 'http://localhost:8080/courses/add';
         this.DELETE_COURSE_URL = 'http://localhost:8080/courses/{id}/delete';
     }
-    CourseService.prototype.getCourses = function (order) {
-        var get_courses_url = this.GET_COURSES_URL + "?order={order}";
+    CourseService.prototype.getCourses = function (order, page) {
+        var get_courses_url = this.GET_COURSES_URL + "?page={page}&order={order}";
         if (order != "ASC" && order != "DESC") {
             order = "ASC";
         }
         get_courses_url = get_courses_url.replace(/\{order\}/, order);
+        get_courses_url = get_courses_url.replace(/\{page\}/, "" + page);
         return this.http.get(get_courses_url)
             .toPromise()
             .then(this.extractData)

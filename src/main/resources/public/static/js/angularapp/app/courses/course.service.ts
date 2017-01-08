@@ -28,12 +28,15 @@ export class CourseService {
 
   constructor (private http: Http) { }
 
-  getCourses(order: string): Promise<Course[]> {
-    let get_courses_url = this.GET_COURSES_URL+"?order={order}";
+  getCourses(order: string, page: number): Promise<Course[]> {
+    let get_courses_url = this.GET_COURSES_URL+"?page={page}&order={order}";
     if(order != "ASC" && order != "DESC"){
       order = "ASC";
     }
+    
     get_courses_url = get_courses_url.replace(/\{order\}/, order);
+    get_courses_url = get_courses_url.replace(/\{page\}/, ""+page);
+    
     return this.http.get(get_courses_url)
                   .toPromise()
                   .then(this.extractData)
