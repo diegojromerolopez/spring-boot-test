@@ -4,10 +4,10 @@
         <tr>
           <td>
             Title
-            <span (click)="toggleOrder()">
+            <button (click)="toggleOrder()">
               <span *ngIf="order == 'ASC'">v</span>
               <span *ngIf="order == 'DESC'">^</span>
-            </span>
+            </button>
           </td>
           <td>Teacher</td>
           <td>Level</td>
