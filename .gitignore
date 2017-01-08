@@ -21,5 +21,5 @@ hs_err_pid*
 # Backup files
 *~
 
-# Angular App
-./src/main/resources/public/static/js/angularapp/node_modules
+# Angular App Node Modules
+src/main/resources/public/static/js/angularapp/node_modules/*
