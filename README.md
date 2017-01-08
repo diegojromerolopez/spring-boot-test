@@ -77,6 +77,18 @@ Return the list of teachers
 ## /teachers/{id}
 Return the teacher with id={id}
 
+# Angular app
+There is a small Angular (>=2.x) application that makes some calls to the API.
+
+To see it in action, execute the script [run_client.sh](https://github.com/diegojromerolopez/spring-boot-test/blob/master/run_client.sh).
+This script checks the NPM dependencies and creates a sever on port 3000 (default NodeJS port).
+
+This app acts as an interface of the REST API showed earlier.
+
+Note you must have java server running on **htttp://localhost:8080** to test the AngularApp.
+
+Don't worry about CORS, this Java application only accepts requests from **htttp://localhost:3080**.
+
 # Other dependencies
 I've uploaded the Javascript dependencies using npm so you don't have to worry about that.
 
