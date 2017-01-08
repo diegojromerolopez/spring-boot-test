@@ -54,7 +54,7 @@ public class CourseManagerController {
         HashMap<String, Object> response = new HashMap<>();
         response.put("pageSize", CourseService.PAGE_SIZE);
         response.put("numberOfCourses", numberOfCourses);
-        response.put("numberOfPages", (int)Math.ceil(numberOfCourses/CourseService.PAGE_SIZE));
+        response.put("numberOfPages", (int)Math.ceil(1.0*numberOfCourses/CourseService.PAGE_SIZE));
         return response;
     }
 

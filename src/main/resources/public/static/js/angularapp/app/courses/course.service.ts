@@ -74,11 +74,6 @@ export class CourseService {
                   .catch(this.handleError);
   }
 
-  getCourse(id: number): Promise<Course> {
-    return this.getCourses()
-             .then(courses => courses.find(course => course.id === id));
-  }
-
   addCourse(course: Course): Promise<Course>{
     let headers = new Headers({ 'Content-Type': 'application/json' });
     let options = new RequestOptions({ headers: headers });

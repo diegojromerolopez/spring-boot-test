@@ -64,10 +64,6 @@ var CourseService = (function () {
             .then(this.extractData)
             .catch(this.handleError);
     };
-    CourseService.prototype.getCourse = function (id) {
-        return this.getCourses()
-            .then(function (courses) { return courses.find(function (course) { return course.id === id; }); });
-    };
     CourseService.prototype.addCourse = function (course) {
         var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
         var options = new http_2.RequestOptions({ headers: headers });

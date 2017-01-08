@@ -29,9 +29,9 @@
       <button (click)="getPrevCourses();">&lt; Prev</button>
       <button *ngIf="current_page > 1" (click)="getFirstCourses();">1</button>
       <span *ngIf="current_page > 2">...</span>
-      <span *ngIf="current_page > 2" (click)="getPrevCourses();">{{current_page-1}}</span>
+      <button *ngIf="current_page > 2" (click)="getPrevCourses();">{{current_page-1}}</button>
       <strong>{{current_page}}</strong>
-      <span *ngIf="current_page < course_count.numberOfPages -1" (click)="getNextCourses();">{{current_page+1}}</span>
+      <button *ngIf="current_page < course_count.numberOfPages -1" (click)="getNextCourses();">{{current_page+1}}</button>
       <span *ngIf="current_page < course_count.numberOfPages">...</span>
       <button *ngIf="current_page < course_count.numberOfPages" (click)="getLastCourses();">{{course_count.numberOfPages}}</button>
       <button (click)="getNextCourses();">&gt; Next</button>
@@ -48,6 +48,7 @@
       </button>
       <div *ngIf="mode == 'add'">
           <h2>New Course</h2>
+          <label>Active: <input #newCourseActive type="checkbox"/></label>
           <label>Title: <input #newCourseTitle required/></label>
           <label>Description: <textarea #newCourseDescription required></textarea></label>
           <label>Number of hours: <input #newCourseNumberOfHours required type="number"/></label>
@@ -63,7 +64,7 @@
               <option *ngFor="let teacher of teachers" value="{{teacher.id}}">{{teacher.fullName}}</option>
             </select>
           </label>
-          <button (click)="addCourse(newCourseTitle.value, newCourseDescription.value, newCourseNumberOfHours.value, newCourseLevel.value, newCourseTeacher.value);">Add</button>
+          <button (click)="addCourse(newCourseTitle.value, newCourseDescription.value, newCourseNumberOfHours.value, newCourseLevel.value, newCourseActive.value, newCourseTeacher.value);">Add</button>
       </div>
     </div>
     <div *ngIf="new_course">

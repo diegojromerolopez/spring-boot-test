@@ -72,13 +72,13 @@ var CoursesComponent = (function () {
         }
     };
     CoursesComponent.prototype.getNextCourses = function () {
-        if (this.current_page < this.course_count.numberOfPages - 1) {
+        if (this.current_page < this.course_count.numberOfPages) {
             this.current_page += 1;
             this.getCourses();
         }
     };
     CoursesComponent.prototype.getLastCourses = function () {
-        if (this.current_page < this.course_count.numberOfPages - 1) {
+        if (this.current_page < this.course_count.numberOfPages) {
             this.current_page = this.course_count.numberOfPages;
             this.getCourses();
         }
@@ -87,7 +87,7 @@ var CoursesComponent = (function () {
         var _this = this;
         this.courseService.getTeachers().then(function (teachers) { return _this.teachers = teachers; });
     };
-    CoursesComponent.prototype.addCourse = function (title, description, numberOfHours, level, teacherId) {
+    CoursesComponent.prototype.addCourse = function (title, description, numberOfHours, level, active, teacherId) {
         var _this = this;
         var course = new course_1.Course();
         course.id = 0;
@@ -95,6 +95,7 @@ var CoursesComponent = (function () {
         course.description = description;
         course.numberOfHours = numberOfHours;
         course.level = level;
+        course.active = active;
         course.teacher = this.teachers.find(function (teacher) { return teacher.id == teacherId; });
         this.courseService.addCourse(course).then(function (new_course) { _this.getCourses(); _this.new_course = new_course; });
     };

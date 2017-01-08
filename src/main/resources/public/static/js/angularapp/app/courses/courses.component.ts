@@ -89,14 +89,14 @@ export class CoursesComponent implements OnInit {
   }
 
   getNextCourses(): void {
-    if(this.current_page < this.course_count.numberOfPages-1){
+    if(this.current_page < this.course_count.numberOfPages){
       this.current_page += 1;
       this.getCourses();
     }
   }
 
   getLastCourses(): void {
-    if(this.current_page < this.course_count.numberOfPages-1){
+    if(this.current_page < this.course_count.numberOfPages){
       this.current_page = this.course_count.numberOfPages;
       this.getCourses();
     }
@@ -106,13 +106,14 @@ export class CoursesComponent implements OnInit {
     this.courseService.getTeachers().then(teachers => this.teachers = teachers);
   }
 
-  addCourse(title:string, description:string, numberOfHours:number, level:string, teacherId:number): void {
+  addCourse(title:string, description:string, numberOfHours:number, level:string, active:boolean, teacherId:number): void {
     let course = new Course();
     course.id = 0; 
     course.title = title;
     course.description = description;
     course.numberOfHours = numberOfHours;
     course.level = level;
+    course.active = active;
     course.teacher = this.teachers.find(teacher => teacher.id==teacherId);
     this.courseService.addCourse(course).then(
       new_course => { this.getCourses(); this.new_course=new_course; }
