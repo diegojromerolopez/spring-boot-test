@@ -20,12 +20,17 @@ var CourseService = (function () {
     function CourseService(http) {
         this.http = http;
         this.GET_COURSES_URL = 'http://localhost:8080/courses';
+        this.GET_COURSE_COUNT_URL = 'http://localhost:8080/courses/count';
         this.ADD_COURSE_URL = 'http://localhost:8080/courses/add';
         this.DELETE_COURSE_URL = 'http://localhost:8080/courses/{id}/delete';
     }
-    CourseService.prototype.getCourses = function () {
-        //return Promise.resolve(COURSES);
-        return this.http.get(this.GET_COURSES_URL)
+    CourseService.prototype.getCourses = function (order) {
+        var get_courses_url = this.GET_COURSES_URL + "?order={order}";
+        if (order != "ASC" && order != "DESC") {
+            order = "ASC";
+        }
+        get_courses_url = get_courses_url.replace(/\{order\}/, order);
+        return this.http.get(get_courses_url)
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);
@@ -51,6 +56,12 @@ var CourseService = (function () {
         }
         console.error(errMsg);
         return Promise.reject(errMsg);
+    };
+    CourseService.prototype.getCourseCount = function () {
+        return this.http.get(this.GET_COURSE_COUNT_URL)
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
     };
     CourseService.prototype.getCourse = function (id) {
         return this.getCourses()

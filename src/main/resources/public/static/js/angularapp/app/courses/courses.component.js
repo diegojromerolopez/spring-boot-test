@@ -17,6 +17,8 @@ var CoursesComponent = (function () {
         this.router = router;
         this.courseService = courseService;
         this.mode = "view";
+        this.current_page = 1;
+        this.order = "ASC";
     }
     CoursesComponent.prototype.changeMode = function () {
         if (this.mode == "view") {
@@ -31,12 +33,26 @@ var CoursesComponent = (function () {
         this.new_course = null;
     };
     CoursesComponent.prototype.ngOnInit = function () {
+        this.getCourseCount();
         this.getCourses();
         this.getTeachers();
     };
+    CoursesComponent.prototype.toggleOrder = function () {
+        if (this.order == "ASC") {
+            this.order = "DESC";
+        }
+        else {
+            this.order = "ASC";
+        }
+        this.getCourses();
+    };
+    CoursesComponent.prototype.getCourseCount = function () {
+        var _this = this;
+        this.courseService.getCourseCount().then(function (course_count) { return _this.course_count = course_count; });
+    };
     CoursesComponent.prototype.getCourses = function () {
         var _this = this;
-        this.courseService.getCourses().then(function (courses) { return _this.courses = courses; });
+        this.courseService.getCourses(this.order).then(function (courses) { return _this.courses = courses; });
     };
     CoursesComponent.prototype.getTeachers = function () {
         var _this = this;

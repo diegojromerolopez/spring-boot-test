@@ -10,6 +10,7 @@ import { Teacher } from '../teachers/teacher';
 import { TeacherService } from '../teachers/teacher.service';
 
 import { Observable }     from 'rxjs/Observable';
+import { CourseCount } from './course-count';
 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -21,14 +22,19 @@ import 'rxjs/add/operator/toPromise';
 export class CourseService {
 
   private GET_COURSES_URL = 'http://localhost:8080/courses';
+  private GET_COURSE_COUNT_URL = 'http://localhost:8080/courses/count';
   private ADD_COURSE_URL = 'http://localhost:8080/courses/add';
   private DELETE_COURSE_URL = 'http://localhost:8080/courses/{id}/delete';
 
   constructor (private http: Http) { }
 
-  getCourses(): Promise<Course[]> {
-    //return Promise.resolve(COURSES);
-    return this.http.get(this.GET_COURSES_URL)
+  getCourses(order: string): Promise<Course[]> {
+    let get_courses_url = this.GET_COURSES_URL+"?order={order}";
+    if(order != "ASC" && order != "DESC"){
+      order = "ASC";
+    }
+    get_courses_url = get_courses_url.replace(/\{order\}/, order);
+    return this.http.get(get_courses_url)
                   .toPromise()
                   .then(this.extractData)
                   .catch(this.handleError);
@@ -56,6 +62,13 @@ export class CourseService {
     }
     console.error(errMsg);
     return Promise.reject(errMsg);
+  }
+
+  getCourseCount(): Promise<CourseCount> {
+    return this.http.get(this.GET_COURSE_COUNT_URL)
+                  .toPromise()
+                  .then(this.extractData)
+                  .catch(this.handleError);
   }
 
   getCourse(id: number): Promise<Course> {

@@ -2,7 +2,13 @@
     <h1>Course list</h1>
       <table class="courses">
         <tr>
-          <td>Title</td>
+          <td>
+            Title
+            <span (click)="toggleOrder()">
+              <span *ngIf="order == 'ASC'">v</span>
+              <span *ngIf="order == 'DESC'">^</span>
+            </span>
+          </td>
           <td>Teacher</td>
           <td>Level</td>
           <td>Number of hours</td>

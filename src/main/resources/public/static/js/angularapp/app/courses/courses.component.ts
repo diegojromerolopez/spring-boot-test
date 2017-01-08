@@ -1,6 +1,7 @@
 import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Course } from './course';
+import { CourseCount } from './course-count';
 import { CourseService } from './course.service';
 import { Router } from '@angular/router';
 import { Teacher } from '../teachers/teacher';
@@ -19,12 +20,17 @@ export class CoursesComponent implements OnInit {
   teachers: Teacher[];
   mode: string;
   new_course?: Course;
+  course_count: CourseCount;
+  current_page: number;
+  order: string;
   
   constructor(
       private router: Router,
       private courseService: CourseService
   ) {
     this.mode = "view";
+    this.current_page = 1;
+    this.order = "ASC";
   }
 
   changeMode(): void {
@@ -41,12 +47,26 @@ export class CoursesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getCourseCount();
     this.getCourses();
     this.getTeachers();
   }
 
+  toggleOrder(): void {
+    if(this.order == "ASC"){
+      this.order = "DESC";
+    }else{
+      this.order = "ASC";
+    }
+    this.getCourses();
+  }
+
+  getCourseCount(): void {
+    this.courseService.getCourseCount().then(course_count => this.course_count=course_count );
+  }
+
   getCourses(): void {
-    this.courseService.getCourses().then(courses => this.courses = courses);
+    this.courseService.getCourses(this.order).then(courses => this.courses = courses);
   }
 
   getTeachers(): void {
