@@ -14,4 +14,20 @@
           <td>{{course.numberOfHours}}</td>
         </tr>
     </table>
+
+    <button (click)="changeMode();">Change mode</button>
+    <div *ngIf="mode == 'add'">
+        <h2>New Course</h2>
+        <label>Title: <input #newCourseTitle required/></label>
+        <label>Description: <textarea #newCourseDescription required></textarea></label>
+        <label>Number of hours: <input #newCourseNumberOfHours required/></label>
+        <label>Level:
+          <select #newCourseLevel required>
+            <option value="basic">Basic</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="advanced">Advanced</option>
+          </select>
+        </label>
+        <button (click)="addCourse(newCourseTitle.value, newCourseDescription.value, newCourseNumberOfHours.value, newCourseLevel.value);">Add</button>
+    </div>
 </div>

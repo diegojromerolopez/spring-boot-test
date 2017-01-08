@@ -10,12 +10,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+var http_2 = require('@angular/http');
+require('rxjs/add/operator/map');
+require('rxjs/add/operator/catch');
 require('rxjs/add/operator/toPromise');
 //import { Observable }     from 'rxjs/Observable';
 var CourseService = (function () {
     function CourseService(http) {
         this.http = http;
         this.GET_COURSES_URL = 'http://localhost:8080/courses';
+        this.ADD_COURSE_URL = 'http://localhost:8080/courses/add';
     }
     CourseService.prototype.getCourses = function () {
         //return Promise.resolve(COURSES);
@@ -45,6 +49,22 @@ var CourseService = (function () {
     CourseService.prototype.getCourse = function (id) {
         return this.getCourses()
             .then(function (courses) { return courses.find(function (course) { return course.id === id; }); });
+    };
+    CourseService.prototype.addCourse = function (course) {
+        var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
+        var options = new http_2.RequestOptions({ headers: headers });
+        var data = {
+            title: course.title,
+            description: course.description,
+            level: course.level,
+            numberOfHours: course.numberOfHours,
+            active: course.active,
+            teacher: course.teacher.id
+        };
+        return this.http.post(this.ADD_COURSE_URL, data, options)
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
     };
     CourseService = __decorate([
         core_1.Injectable(), 

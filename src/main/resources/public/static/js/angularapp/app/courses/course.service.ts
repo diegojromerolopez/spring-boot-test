@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
+import { Headers, RequestOptions } from '@angular/http';
 
 import { Course } from './course';
 import { COURSES } from './mock-course';
 
+import { Observable }     from 'rxjs/Observable';
+
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 
 //import { Observable }     from 'rxjs/Observable';
@@ -12,6 +17,7 @@ import 'rxjs/add/operator/toPromise';
 export class CourseService {
 
   private GET_COURSES_URL = 'http://localhost:8080/courses';
+  private ADD_COURSE_URL = 'http://localhost:8080/courses/add';
 
   constructor (private http: Http) { }
 
@@ -45,6 +51,26 @@ export class CourseService {
   getCourse(id: number): Promise<Course> {
     return this.getCourses()
              .then(courses => courses.find(course => course.id === id));
+  }
+
+  addCourse(course: Course): Promise<Course>{
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    let data = {
+      title: course.title,
+      description: course.description,
+      level: course.level,
+      numberOfHours: course.numberOfHours,
+      active: course.active,
+      teacher: course.teacher.id
+    }
+
+    return this.http.post(this.ADD_COURSE_URL, data, options)
+                    .toPromise()
+                    .then(this.extractData)
+                    .catch(this.handleError);
+
   }
 
 }

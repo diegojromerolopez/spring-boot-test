@@ -9,19 +9,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var course_1 = require('./course');
 var course_service_1 = require('./course.service');
 var router_1 = require('@angular/router');
 var CoursesComponent = (function () {
     function CoursesComponent(router, courseService) {
         this.router = router;
         this.courseService = courseService;
+        this.mode = "view";
     }
+    CoursesComponent.prototype.changeMode = function () {
+        if (this.mode == "view") {
+            this.mode = "add";
+        }
+        else {
+            this.mode = "view";
+        }
+    };
     CoursesComponent.prototype.ngOnInit = function () {
         this.getCourses();
     };
     CoursesComponent.prototype.getCourses = function () {
         var _this = this;
         this.courseService.getCourses().then(function (courses) { return _this.courses = courses; });
+    };
+    CoursesComponent.prototype.addCourse = function (title, description, numberOfHours, level) {
+        var _this = this;
+        var course = new course_1.Course();
+        course.id = 0;
+        course.title = title;
+        course.description = description;
+        course.numberOfHours = numberOfHours;
+        course.level = level;
+        this.courseService.addCourse(course).then(function (new_course) { return _this.getCourses(); });
     };
     CoursesComponent = __decorate([
         core_1.Component({
