@@ -26,14 +26,23 @@ var CoursesComponent = (function () {
             this.mode = "view";
         }
     };
+    CoursesComponent.prototype.returnToViewMode = function () {
+        this.mode = "view";
+        this.new_course = null;
+    };
     CoursesComponent.prototype.ngOnInit = function () {
         this.getCourses();
+        this.getTeachers();
     };
     CoursesComponent.prototype.getCourses = function () {
         var _this = this;
         this.courseService.getCourses().then(function (courses) { return _this.courses = courses; });
     };
-    CoursesComponent.prototype.addCourse = function (title, description, numberOfHours, level) {
+    CoursesComponent.prototype.getTeachers = function () {
+        var _this = this;
+        this.courseService.getTeachers().then(function (teachers) { return _this.teachers = teachers; });
+    };
+    CoursesComponent.prototype.addCourse = function (title, description, numberOfHours, level, teacherId) {
         var _this = this;
         var course = new course_1.Course();
         course.id = 0;
@@ -41,7 +50,12 @@ var CoursesComponent = (function () {
         course.description = description;
         course.numberOfHours = numberOfHours;
         course.level = level;
-        this.courseService.addCourse(course).then(function (new_course) { return _this.getCourses(); });
+        course.teacher = this.teachers.find(function (teacher) { return teacher.id == teacherId; });
+        this.courseService.addCourse(course).then(function (new_course) { _this.getCourses(); _this.new_course = new_course; });
+    };
+    CoursesComponent.prototype.deleteCourse = function (course) {
+        var _this = this;
+        this.courseService.deleteCourse(course).then(function (new_course) { _this.getCourses(); });
     };
     CoursesComponent = __decorate([
         core_1.Component({

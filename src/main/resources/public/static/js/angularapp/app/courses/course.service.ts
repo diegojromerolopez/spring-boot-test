@@ -1,9 +1,13 @@
+
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 
 import { Course } from './course';
 import { COURSES } from './mock-course';
+
+import { Teacher } from '../teachers/teacher';
+import { TeacherService } from '../teachers/teacher.service';
 
 import { Observable }     from 'rxjs/Observable';
 
@@ -18,6 +22,7 @@ export class CourseService {
 
   private GET_COURSES_URL = 'http://localhost:8080/courses';
   private ADD_COURSE_URL = 'http://localhost:8080/courses/add';
+  private DELETE_COURSE_URL = 'http://localhost:8080/courses/{id}/delete';
 
   constructor (private http: Http) { }
 
@@ -27,6 +32,11 @@ export class CourseService {
                   .toPromise()
                   .then(this.extractData)
                   .catch(this.handleError);
+  }
+
+  getTeachers(): Promise<Teacher[]> {
+      let teacherService = new TeacherService(this.http);
+      return teacherService.getTeachers();
   }
 
   private extractData(res: Response) {
@@ -61,16 +71,31 @@ export class CourseService {
       title: course.title,
       description: course.description,
       level: course.level,
-      numberOfHours: course.numberOfHours,
-      active: course.active,
+      numberOfHours: +course.numberOfHours,
+      isActive: course.active? "true":"false",
       teacher: course.teacher.id
     }
+
+    console.log("Prepared data to send");
+    console.log(data);
 
     return this.http.post(this.ADD_COURSE_URL, data, options)
                     .toPromise()
                     .then(this.extractData)
                     .catch(this.handleError);
 
+  }
+
+  deleteCourse(course: Course): Promise<Course>{
+    let course_id = ""+course.id;
+    let delete_this_course_url = this.DELETE_COURSE_URL.replace(/\{id\}/, course_id);
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+    let data = {};
+    return this.http.post(delete_this_course_url, data, options)
+                    .toPromise()
+                    .then(this.extractData)
+                    .catch(this.handleError);
   }
 
 }

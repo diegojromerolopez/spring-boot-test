@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var http_2 = require('@angular/http');
+var teacher_service_1 = require('../teachers/teacher.service');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/catch');
 require('rxjs/add/operator/toPromise');
@@ -20,6 +21,7 @@ var CourseService = (function () {
         this.http = http;
         this.GET_COURSES_URL = 'http://localhost:8080/courses';
         this.ADD_COURSE_URL = 'http://localhost:8080/courses/add';
+        this.DELETE_COURSE_URL = 'http://localhost:8080/courses/{id}/delete';
     }
     CourseService.prototype.getCourses = function () {
         //return Promise.resolve(COURSES);
@@ -27,6 +29,10 @@ var CourseService = (function () {
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);
+    };
+    CourseService.prototype.getTeachers = function () {
+        var teacherService = new teacher_service_1.TeacherService(this.http);
+        return teacherService.getTeachers();
     };
     CourseService.prototype.extractData = function (res) {
         var body = res.json();
@@ -57,11 +63,24 @@ var CourseService = (function () {
             title: course.title,
             description: course.description,
             level: course.level,
-            numberOfHours: course.numberOfHours,
-            active: course.active,
+            numberOfHours: +course.numberOfHours,
+            isActive: course.active ? "true" : "false",
             teacher: course.teacher.id
         };
+        console.log("Prepared data to send");
+        console.log(data);
         return this.http.post(this.ADD_COURSE_URL, data, options)
+            .toPromise()
+            .then(this.extractData)
+            .catch(this.handleError);
+    };
+    CourseService.prototype.deleteCourse = function (course) {
+        var course_id = "" + course.id;
+        var delete_this_course_url = this.DELETE_COURSE_URL.replace(/\{id\}/, course_id);
+        var headers = new http_2.Headers({ 'Content-Type': 'application/json' });
+        var options = new http_2.RequestOptions({ headers: headers });
+        var data = {};
+        return this.http.post(delete_this_course_url, data, options)
             .toPromise()
             .then(this.extractData)
             .catch(this.handleError);

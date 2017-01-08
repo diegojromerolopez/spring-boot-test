@@ -18,6 +18,7 @@ export class CoursesComponent implements OnInit {
   courses: Course[];
   teachers: Teacher[];
   mode: string;
+  new_course?: Course;
   
   constructor(
       private router: Router,
@@ -34,23 +35,40 @@ export class CoursesComponent implements OnInit {
     }
   }
 
+  returnToViewMode(): void {
+    this.mode = "view";
+    this.new_course = null;
+  }
+
   ngOnInit(): void {
     this.getCourses();
+    this.getTeachers();
   }
 
   getCourses(): void {
     this.courseService.getCourses().then(courses => this.courses = courses);
   }
 
-  addCourse(title:string, description:string, numberOfHours:number, level:string): void {
+  getTeachers(): void {
+    this.courseService.getTeachers().then(teachers => this.teachers = teachers);
+  }
+
+  addCourse(title:string, description:string, numberOfHours:number, level:string, teacherId:number): void {
     let course = new Course();
     course.id = 0; 
     course.title = title;
     course.description = description;
     course.numberOfHours = numberOfHours;
     course.level = level;
+    course.teacher = this.teachers.find(teacher => teacher.id==teacherId);
     this.courseService.addCourse(course).then(
-      new_course => this.getCourses()
+      new_course => { this.getCourses(); this.new_course=new_course; }
+    );
+  }
+
+  deleteCourse(course: Course): void {
+    this.courseService.deleteCourse(course).then(
+      new_course => { this.getCourses(); }
     );
   }
 
