@@ -48,10 +48,14 @@ public class CourseManagerController {
     // Show list of all courses
     @CrossOrigin(origins=CORS_DOMAIN)
     @RequestMapping(value="/count", method=RequestMethod.GET)
-    public Integer count(){
+    public HashMap<String, Object> count(){
         CourseService courseService = new CourseService();
-        Integer number_of_courses = courseService.getNumberOfCourses();
-        return number_of_courses;
+        Integer numberOfCourses = courseService.getNumberOfCourses();
+        HashMap<String, Object> response = new HashMap<>();
+        response.put("pageSize", CourseService.PAGE_SIZE);
+        response.put("numberOfCourses", numberOfCourses);
+        response.put("numberOfPages", (int)Math.ceil(numberOfCourses/CourseService.PAGE_SIZE));
+        return response;
     }
 
     // Show one course

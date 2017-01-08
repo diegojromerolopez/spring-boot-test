@@ -47,7 +47,35 @@ Thus, courses are given by one (and only one) teacher.
 # REST URLs
 
 ## /courses
-Return the list of active courses
+Returns the list of active courses. This list is paginated whith the following GET parameters:
+
+- **order**: orders the course list according to the course title. It can be "ASC" or "DESC". Optional. "ASC" by default.
+- **page**: selects the page of the course list. It must be an integer. Optional. 1 by default. Selecting a non-existant page returns an empty list.
+
+For example:
+
+````json
+[
+    {"id":79,"title":"Brainfuck","description":"An esoteric useless language","numberOfHours":100,"level":"basic","teacher":{"id":1,"firstName":"Alfredo","lastName":"Domínguez","fullName":"Alfredo Domínguez"},"active":true},
+    {"id":5,"title":"C#","description":"Microsoft main language","numberOfHours":33,"level":"basic","teacher":{"id":1,"firstName":"Alfredo","lastName":"Domínguez","fullName":"Alfredo Domínguez"},"active":true},
+    {"id":6,"title":"C++","description":"Not forgottern language","numberOfHours":56,"level":"intermediate","teacher":{"id":1,"firstName":"Alfredo","lastName":"Domínguez","fullName":"Alfredo Domínguez"},"active":true},
+    // ...
+]
+````
+
+For example:
+
+
+
+## /courses/count
+
+Returns the total number of courses, the page size and the number of pages that are in the database.
+
+For example:
+
+````json
+{"numberOfPages": 9, "pageSize": 10, "numberOfCourses": 90}
+````
 
 ## /courses/add
 Adds a new course. Needs a POST with a JSON body. The format of the JSON is the following:
@@ -64,7 +92,24 @@ Adds a new course. Needs a POST with a JSON body. The format of the JSON is the 
 In the directory rest_example_calls are two scripts, [rest_example_calls/add_course.sh](https://github.com/diegojromerolopez/spring-boot-test/blob/master/rest_example_calls/add_course.sh) is one of them and lets you add a new course to teacher with id 2 (change it if teacher with id = 2 does not exist in your database).
 
 ## /courses/{id}
-Return the courses with id={id}
+Returns the course with id={id}
+
+````json
+{
+    "id": 5,
+    "title": "C#",
+    "description": "A Microsoft language",
+    "numberOfHours": 33,
+    "level": "basic",
+    "teacher": {
+        "id": 1,
+        "firstName": "Alfredo",
+        "lastName": "Domínguez",
+        "fullName": "Alfredo Domínguez"
+    },
+    "active": true
+}
+````
 
 ## /courses/{id}/delete
 Deletes the course with id={id}. This action uses the POST method.
