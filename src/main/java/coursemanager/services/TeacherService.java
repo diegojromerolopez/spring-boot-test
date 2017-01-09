@@ -8,11 +8,14 @@ import coursemanager.mappers.TeacherMapper;
 import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author diegoj
  */
+@Component
 public class TeacherService {
  
     public Teacher getTeacherById(Integer id)

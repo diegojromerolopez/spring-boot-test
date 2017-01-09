@@ -3,14 +3,19 @@ package coursemanager.services;
 import coursemanager.connector.MyBatisUtil;
 import coursemanager.domain.Course;
 import coursemanager.mappers.CourseMapper;
+import org.springframework.stereotype.Service;
 import java.util.List;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
+
+import org.springframework.stereotype.Component;
+
 
 /**
  *
  * @author diegoj
  */
+@Component
 public class CourseService {
     
     public static final int PAGE_SIZE = 10;
